@@ -1,0 +1,11 @@
+{
+  "name": "ast-explore",
+  "version": "1.0.0",
+  "description": "Improved productivity 💯 with the practical 🤓 use of the power 💪 of Abstract Syntax Trees 🌳 to lint ⚠️ and transform 🔀 your code",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sudongyuer",
+  "license": "MIT"
+}
