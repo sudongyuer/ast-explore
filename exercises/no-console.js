@@ -7,6 +7,15 @@ module.exports = {
   // you're going to need context :)
   // eslint-disable-next-line no-unused-vars
   create(context) {
-    return {}
+    return {
+      Identifier(node) {
+        if (node.name === 'console') {
+          context.report({
+            node,
+            message: 'Using console is not allowed',
+          })
+        }
+      },
+    }
   },
 }
