@@ -1,42 +1,48 @@
-// eslint exercise 0 (no-console)
-// When you're finished with this exercise, run
-//   "npm start exercise.eslint.1"
-//   to move on to the next exercise
-
-const disallowedMethods = ['log', 'info', 'warn']
+const disallowedMethods = ['log', 'info', 'warn', 'error', 'dir']
 
 module.exports = {
   meta: {
-    docs: {
-      description: 'Disallow use of console',
-      cateroty: 'Best Practices',
-      recommended: true,
-    },
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          allowedMethods: {
+            type: 'array',
+            items: {
+              enum: ['log', 'info', 'warn', 'error', 'dir'],
+            },
+            minItems: 1,
+            uniqueItems: true,
+          },
+        },
+      },
+    ],
   },
-  // you're going to need context :)
-  // eslint-disable-next-line no-unused-vars
   create(context) {
+    const config = context.options[0] || {}
+    const allowedMethods = config.allowedMethods || []
     return {
       Identifier(node) {
-        console.log(node)
-        const isConsoleCall = looksLike(node, {
-          name: 'console',
-          parent: {
-            type: 'MemberExpression',
-            property: {
-              name: val => disallowedMethods.includes(val),
-            },
+        if (
+          !looksLike(node, {
+            name: 'console',
             parent: {
-              type: 'CallExpression',
+              type: 'MemberExpression',
+              parent: {type: 'CallExpression'},
+              property: {
+                name: val =>
+                  !allowedMethods.includes(val) &&
+                  disallowedMethods.includes(val),
+              },
             },
-          },
-        })
-        if (isConsoleCall) {
-          context.report({
-            node,
-            message: 'Using console is not allowed',
           })
+        ) {
+          return
         }
+        context.report({
+          node: node.parent.property,
+          message: 'Using console is not allowed',
+        })
       },
     }
   },
@@ -57,7 +63,6 @@ function looksLike(a, b) {
   )
 }
 
-//这个方法很高级 😂 判断是否为原始值
 function isPrimitive(val) {
   return val == null || /^[sbn]/.test(typeof val)
 }
