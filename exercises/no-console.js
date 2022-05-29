@@ -20,6 +20,7 @@ module.exports = {
   },
   create(context) {
     const config = context.options[0] || {}
+    console.log(config)
     const allowedMethods = config.allowedMethods || []
     return {
       Identifier(node) {
