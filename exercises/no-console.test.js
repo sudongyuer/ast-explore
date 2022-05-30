@@ -1,6 +1,6 @@
-// eslint exercise 3 (no-console)
+// eslint exercise 4 (no-console)
 // When you're finished with this exercise, run
-//   "npm start exercise.eslint.4"
+//   "npm start exercise.eslint.5"
 //   to move on to the next exercise
 
 const {RuleTester} = require('eslint')
@@ -19,6 +19,12 @@ ruleTester.run('no-console', rule, {
     invalid('console.log()'),
     invalid('console.info()'),
     invalid('console.warn()'),
+    invalid(
+      `
+        var csl = console
+        csl.log()
+      `,
+    ),
   ],
 })
 
@@ -36,7 +42,7 @@ function invalid(code) {
 // 3. Change submitted from `false` to `true`
 // 4. And you're all done!
 /*
-http://ws.kcd.im/?ws=ASTs&e=eslint%20exercise%204&em=
+http://ws.kcd.im/?ws=ASTs&e=eslint%20exercise%205&em=
 */
 test.skip('I submitted my elaboration and feedback', () => {
   const submitted = false // change this when you've submitted!
